@@ -1,0 +1,83 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName" required>
+  </label>
+
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+  </label>
+
+  <div formGroupName="address">
+    <h3>Address</h3>
+
+    <label>
+      Street:
+      <input type="text" formControlName="street">
+    </label>
+
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label>
+    
+    <label>
+      State:
+      <input type="text" formControlName="state">
+    </label>
+
+    <label>
+      Zip Code:
+      <input type="text" formControlName="zip">
+    </label>
+  </div>
+
+  <div formArrayName="skills">
+    <h3>Skills</h3> <button (click)="addSkills()">Add skill</button>
+
+    <div *ngFor="let skill of skills.controls; let i=index">
+      <!-- The repeated alias template -->
+      <label>
+        Skill:
+        <input type="text" [formControlName]="i">
+      </label>
+    </div>
+  </div>
+
+  <div formArrayName="employmentHistory">
+    <h3>Employment History</h3> <button (click)="addEmployment()">Add Employment History</button>
+
+    <div *ngFor="let employment of profileForm.get('employmentHistory').controls; let i=index">
+      <!-- The repeated alias template -->
+      <div [formGroupName]="i">
+        <label>
+          Company:
+          <input type="text" formControlName="company">
+        </label>
+        <label>
+          Dsignation:
+          <input type="text" formControlName="designation">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+</form>
+
+<hr>
+
+
+<p>
+  Form Value: {{ profileForm.value | json }}
+</p>
+
+
+<p>
+  Form Status: {{ profileForm.status }}
+</p>
+
+<p>
+  <button (click)="updateProfile()">Update Profile</button>
+</p>
